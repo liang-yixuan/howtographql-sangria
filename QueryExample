@@ -1,7 +1,22 @@
+1. The first query
+
 query {
   allLinks {
     id
     url
     description
   }
+}
+
+2. Handling Arguments
+
+query {
+    link(id: 1){
+      id
+      url
+    }
+    links(ids: [2,3]){
+      id
+      url
+    }
 }
