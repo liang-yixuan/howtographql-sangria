@@ -11,15 +11,7 @@ import sangria.execution.deferred.HasId
 object GraphQLSchema {
 
   // 1
-  val LinkType = ObjectType[Unit, Link](
-    "Link",
-    fields[Unit, Link](
-      Field("id", IntType, resolve = _.value.id),
-      Field("url", StringType, resolve = _.value.url),
-      Field("description", StringType, resolve = _.value.description)
-    )
-  )
-
+  implicit val LinkType = deriveObjectType[Unit, Link]()
   implicit val linkHasId = HasId[Link, Int](_.id)
 
   val linksFetcher =
