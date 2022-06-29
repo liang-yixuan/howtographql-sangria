@@ -12,12 +12,7 @@ import sangria.ast.Document
 import sangria.execution._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import sangria.marshalling.sprayJson._
-
-import sangria.schema.{Field, ListType, ObjectType}
-import models._
-// #
-import sangria.schema._
-import sangria.macros.derive._
+import com.howtographql.scala.sangria.models.MyContext
 
 object GraphQLServer {
 
@@ -66,7 +61,8 @@ object GraphQLServer {
         query, // 11
         MyContext(dao), // 12
         variables = vars, // 13
-        operationName = operation // 14
+        operationName = operation, // 14
+        deferredResolver = GraphQLSchema.Resolver
       )
       .map(OK -> _)
       .recover {
@@ -76,40 +72,4 @@ object GraphQLServer {
       }
   }
 
-}
-
-object GraphQLSchema {
-
-  // 1
-  val LinkType = ObjectType[Unit, Link](
-    "Link",
-    fields[Unit, Link](
-      Field("id", IntType, resolve = _.value.id),
-      Field("url", StringType, resolve = _.value.url),
-      Field("description", StringType, resolve = _.value.description)
-    )
-  )
-
-  // 2
-  val QueryType = ObjectType(
-    "Query",
-    fields[MyContext, Unit](
-      Field("allLinks", ListType(LinkType), resolve = c => c.ctx.dao.allLinks),
-      Field(
-        "link",
-        OptionType(LinkType),
-        arguments = List(Argument("id", IntType)),
-        resolve = c => c.ctx.dao.getLink(c.arg[Int]("id"))
-      ),
-      Field(
-        "links",
-        ListType(LinkType),
-        arguments = List(Argument("ids", ListInputType(IntType))),
-        resolve = c => c.ctx.dao.getLinks(c.arg[Seq[Int]]("ids"))
-      )
-    )
-  )
-
-  // 3
-  val SchemaDefinition = Schema(QueryType)
 }
