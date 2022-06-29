@@ -1,6 +1,6 @@
 ## HowToGraph - GraphQL with Sangria Tutorial codebase
 
-A code for GraphQL-Sangria Tutorial. Visit [HowtoGraphql.com](http://howtographql.com) to learn more.  
+A code for GraphQL-Sangria Tutorial. Visit [HowtoGraphql.com](http://howtographql.com) to learn more.
 
 ### Running the example
 
@@ -19,3 +19,8 @@ Use different PORT if you've changed it int he configuration.
 This example uses an in-memory [H2](http://www.h2database.com/html/main.html) SQL database. The schema and example data will be re-created every time server starts.
 
 If you would like to change the database configuration or use a different database, then please update `src/main/resources/application.conf`.
+
+### Change I made after pulling the project:
+
+- Update sbt to 0.13.17 (with Metals support)
+- Update scala to 2.12.16
